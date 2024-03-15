@@ -41,4 +41,29 @@ router.post('/', (req, res) => {
     })
 })
 
+router.delete('/:id',(req, res) => {
+    const id = req.params.id;
+
+    dbConecta.query('DELETE FROM tbtarefas WHERE id = ? ', [id], (err) =>{
+        if (err) throw err;
+        res.status(201).json({
+            mensagem: `Tarefa de id: ${id}, deletado com sucesso!`
+        })
+    });
+})
+
+ router.put('/:id', (req, res) => {
+        const id = req.params.id;
+        const {titulo, descricao, data, status} = req.body;
+
+        dbConecta.query(
+            'UPDATE tbtarefas SET titulo =?, descricao=?, data=?, status=? WHERE id =?',
+            [titulo, descricao, data, status, id],
+            (err) => {
+                if (err) throw err;
+                res.status(201).json({
+                    mensagem: `Alteração aplicada!`
+                })
+        })
+ })
 module.exports = router;
